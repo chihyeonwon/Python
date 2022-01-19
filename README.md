@@ -481,3 +481,234 @@ output_b = str(52.273)
 print(type(output_a), output_a)
 print(type(output_b), output_b)
 ```
+
+# 숫자와 문자열의 다영한 기능
+
+## 문자열의 format() 함수
+
+format() 함수로 숫자를 문자열로 변환하는 몇 가지 형태를 살펴보겠습니다.
+
+format() 함수는 문자열이 가지고 있는 함수입니다. 중괄호 {}를 포함한 문자열 뒤에 마침표(.)를 찍고 format() 함수를 사용하는 데, 중괄호의 개수와 format 함수 괄호 안 매개변수의 개수는 반드시 같아야합니다.
+
+"{}".format(10)
+"{} {}".format(10, 20)
+"{} {} {} {}".format(101, 202, 303, 404, 505)
+
+이러한 형태로 함수를 사용하면 앞쪽에 있는 문자열의 {} 기호가 format() 함수 괄호 안에 있는 매개변수로 차례로 대치되면서 숫자가 문자열이 되는 것입니다. 즉 아래의 예시에서 10은 문자열의 중괄호 부분에 들어가 숫자 10이 문자열 "10"이 되는 것입니다.
+
+다음은 format() 함수로 숫자를 문자열로 변환하는 예시코드입니다.
+
+format_basic.py
+```python
+  # format() 함수로 숫자를 문자열로 변환하기
+string_a = "{}".format(10)
+
+# 출력하기
+print(string_a)
+print(type(string_a))   
+```
+
+다음은 {} 기호 양쪽에 다른 문자열을 같이 넣은 형태, {} 기호와 매개변수를 여러개 넣은 형태를 실행해보겠습니다.
+
+format01.py
+```python
+# format() 함수로 숫자를 문자열로 변환하기
+format_a = "{}만 원".format(5000)
+format_b = "파이썬 열공하여 첫 연봉 {}만원 만들기".format(5000)
+format_c = "{} {} {}".format(3000, 4000, 5000)
+format_d = "{} {} {}".format(1, "문자열", True)
+
+# 출력하기
+print(format_a) 
+print(format_b)
+print(format_c)
+print(format_d)
+```
+
+## IndexError 예외
+
+{} 기호의 개수가 format() 함수의 매개변수 개수보다 많으면 IndexError 예외가 발생합니다. 아래의 예시에서 첫 번째는 매개변수가 {}보다 많은  경우로 {} 개수만큼 적용되고 나머지 매개변수는 버려져 아무 문제 없이 실행됩니다. 두 번째는 {}가 매개변수보다 많은 경우로 IndexError 예외가 발생합니다.
+
+```python
+"{} {}".format(1, 2, 3, 4, 5)
+'1 2'
+"{} {} {}".format(1, 2)
+>IndexError 발생
+```
+
+## format() 함수의 다양한 기능
+
+정수 출력의 다양한 형태
+
+정수를 특정 칸에 출력하기
+
+format02.py
+```python
+# 정수
+output_a = "{:d}".format(52)
+
+# 특정 칸에 출력하기
+output_b = "{:5d}".format(52)  # 5칸
+output_c = "{:10d}".format(52)  # 10칸
+
+# 빈칸을 0으로 채우기
+output_d = "{:05d}".format(52)  # 양수
+output_e = "{:05d}".format(-52)  # 음수
+
+print("# 기본")
+print(output_a)
+print(output_b)
+print(output_c)
+print("# 빈칸을 0으로 채우기")
+print(output_d)
+print(output_e)
+```
+
+다음은 기호를 붙여 출력하는 예시코드입니다.
+
+format03.py
+```python
+# 기호와 함께 출력하기
+output_f = "{:+d}".format(52)  # 양수
+output_f = "{:+d}".format(-52)  # 음수
+output_f = "{: d}".format(52)  # 양수: 기호 부분 공백
+output_f = "{: d}".format(-52)  # 음수: 기호 부분 공백
+
+print("# 기호와 함께 출력하기")
+print(output_f)
+print(output_g)
+print(output_h)
+print(output_i)
+```
+
+기호와 공백을 조합할 때는 = 기호를 앞에 붙일 수 있습니다. 이는 5칸의 공간을 잡았을 때 기호를 빈칸 앞에 붙일 것인지, 숫자 앞에 붙일 것인지 지정하는 기호입니다.
+
+format04.py
+```python
+output_h = "{:+5d}".format(52)  # 기호를 뒤로 밀기: 양수
+output_i = "{:+5d}".format(-52)  # 기호를 뒤로 밀기: 음수
+output_j = "{:=+5d}".format(52)  # 기호를 뒤로 밀기: 양수
+output_k = "{:=+5d}".format(-52)  # 기호를 뒤로 밀기: 음수
+output_l = "{:+05d}".format(52)  # 0으로 채우기 : 양수
+output_m = "{:+05d}".format(-52)  # 0으로 채우기 : 음수
+
+print("# 조합하기")
+print(output_h)
+print(output_i)
+print(output_j)
+print(output_k)
+print(output_l)
+print(output_m)
+```
+
+## 부동 소수점 출력의 다양한 형태
+
+일단 float 자료형 출력을 강제로 지정할 때는 {:f}를 사용하고 이전에 살펴보았 던 형태들을 적용할 수 있습니다.
+
+format05.py
+```python
+output_a = "{:f}".format(52.273)
+output_b = "{:15f}".format(52.273)  # 15칸 만들기
+output_c = "{:+15f}".format(52.273)  # 15칸에 부호 추가하기
+output_d = "{:+015f}".format(52.273)  # 15칸에 부호 추가하고 0으로 채우기
+
+print(output_a)
+print(output_b)
+print(output_c)
+print(output_d)
+```
+
+소수점 아래 자릿수를 지정하는 예시코드입니다.
+
+format06.py
+```python
+output_a = "{:15.3f}".format(52.273)
+output_b = "{:15.2f}".format(52.273)
+output_c = "{:15.1f}".format(52.273)
+
+print(output_a)
+print(output_b)
+print(output_c)
+```
+
+15칸을 잡고 소수점을 각각 3자리, 2자리, 1자리로 출력합니다. 이때 자동으로 반올림도 일어납니다.
+
+## 의미없는 소수점 제거하기
+
+0.0과 0을 출력했을 때 내부적으로 자료형이 다르므로 서로 다른 값으로 출력합니다. 의미 없는 0을 제거한 후 출력하고 싶을 때 {:g} 를 사용합니다.
+
+format07.py
+```python
+output_a = 52.0
+output_b = "{:g}".format(output_a)
+print(output_a)
+print(output_b)
+```
+
+## 대소문자 바꾸기 : upper() 와 lower()
+
+upper()함수는 문자열의 알파벳을 대문자로, lower()함수는 문자열의 알파벳을 소문자로 만듭니다.
+
+a = "Hello Python Programming ...!"
+a.upper()
+'HELLO PYTHON PROGRAMMING ...!
+a.lower()
+'hello python programming ...!
+
+이 때 upper(), lower() 함수는 원본을 변하시키지 않는 비파괴적 함수입니다.
+
+## 문자열 양옆의 공백 제거하기 : strip()
+
+strip() 함수는 문자열 양옆의 공백을 제거합니다. 왼쪽의 공백을 제거하는 lstrip() 함수와 오른쪽의 공백을 제거하는 rstrip()함수도 있습니다. 이때 공백이란 "띄어쓰기", "탭", "줄바꿈" 모두를 포합합니다.
+
+큰따옴표 또는 작은따옴표를 세 번 반복한 기호는 여러 줄 문자열을 입력할 때 사용하는 것으로 이때 의도치 않는 줄바꿈이 들어갑니다. 이때 strip() 함수를 사용해서 쉽게 제거 할 수 있습니다.
+
+이렇게 strip()함수를 사용하여 공백 제거를 하는 기능을 trim이라고도 부릅니다. 공백을 제거할 때는 strip 또는 trim을 활용한다고 기억하는게 좋습니다.
+
+## 문자열의 구성 파악하기 : isOO()
+
+문자열이 소문자로만 구성되있는지 알파벳으로만 구성되어있는지 숫자로만 구성되어있는지 등을 확인할 때는 is로 시작하는 이름의 함수를 사용합니다.
+
+isalnum() : 문자열이 알파벳 또는 숫자로만 구성되어있는지 확인합니다.
+isalpha() : 문자열이 알파벳만으로만 구성되어 있는지 ~
+isidentifier() : 문자열이 식별자로 사용할수 ~
+isdecimal() : 문자열이 정수 형태인지 확인합니다.
+isdigit() : 문자열이 숫자로 인식될 수 ~
+isspace() : 문자열이 공백으로만 ~
+islower() : 문자열이 소문자로만 ~
+isupper() : 문자열이 대문자로만 ~
+
+## 문자열 찾기 : find()와 rfind()
+
+문자열 내부에 특정 문자가 어디에 위치하는 지 확인할 때 find()함수와 rfind() 함수를 사용합니다.
+
+find() : 왼쪽부터 찾아서 처음 등장하는 위치를 찾습니다.
+rfind() : 오른쪽부터 찾아서 처음 등장하는 위치를 찾습니다.
+
+output_a = "안녕안녕하세요".find("안녕")
+print(output_a)
+0
+
+output_b = "안녕안녕하세요".rfind("안녕")
+print(output_b)
+2
+
+## 문자열과 in 연산자
+
+문자열 내부에 어떤 문자열이 있는지 확인하려면 in 연산자를 사용합니다. 출력은 True(맞다) 또는 False(아니다)라고 나옵니다.
+print("안녕" in "안녕하세요")
+True
+
+print("잘자" in "안녕하세요")
+False
+
+## 문자열 자르기 : split()
+
+문자열을 특정한 문자로 자를 때 split()함수를 사용합니다. split 함수 괄호 안의 문자열인 공백(띄어쓰기)을 기준으로 자릅니다
+
+a = "10 20 30 40 50".split(" ")
+print(a)
+['10', '20', '30', '40', '50' ]
+
+실행결과로 리스트가 나옵니다
+
