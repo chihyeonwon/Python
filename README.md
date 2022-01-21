@@ -712,3 +712,288 @@ print(a)
 
 실행결과로 리스트가 나옵니다
 
+# 불 자료형과 if 조건문
+
+## 불 만들기 : 비교 연산자
+
+Boolean은 불린 또는 불리언이라는 발음으로 부릅니다. 불은 오직 True(참)과 False(거짓) 값만 가질 수 있습니다.
+불은 비교 연산자를 통해 만들 수 있습니다. 
+
+== : 같다
+> : 크다
+!= : 다르다
+<= : 작거나 같다
+< : 작다
+>= : 크거나 같다
+
+비교 연산자는 숫자 또는 문자열에 적용할 수 있습니다.
+
+다음은 숫자의 대소 비교를 비교연산자를 이용하는 예시 코드입니다.
+```python
+print(10 == 100)
+False
+print(10 != 100)
+True
+print(10 < 100)
+True
+print(10 > 100)
+False
+print(10 <= 100)
+True
+print(10 >= 100)
+False
+```
+
+파이썬은 문자열에도 비교 연산자를 적용할 수 있습니다. 
+다음은 문자열의 비교 연산자를 이용하는 예시 코드입니다.
+```python
+print("가방" === "가방")
+True
+print("가방" != "하마")
+False
+print("가방" < "하마")
+True
+print("가방" > "하마")
+False
+```
+
+가방과 하마를 비교하면 사전 순서로 가방이 앞에 있으므로 가방이 하마보다 작은 값을 갖습니다.
+
+파이썬은 다음과 같은 코드를 사용해 변수의 범위 등도 구할 수 있습니다.
+```python
+x = 25
+print(10 < x < 30)
+True
+print(40 < x < 60)
+False
+```
+
+## 불 연산하기 : 논리 연산자
+
+불끼리는 논리 연산자를 사용할 수 있습니다.
+다음과 같은 세 개의 논리 연산자가 있습니다.
+
+not 아니다 : 불을 반대로 전환합니다.
+and 그리고 : 피연산자 두 개가 모두 참일 때 True를 출력하며, 그 외는 모두 False를 출력합니다.
+or 또는 : 피연산자 두 개 중에 하나만 참이라도 True를 출력하며, 두 개가 모두 거짓일 때만 False를 출력합니다.
+
+## not 연산자
+
+not 연산자는 단항 연산자로, 참과 거짓을 반대로 바꿀 때 사용합니다. 실행하면 단순하게 True와 False가 서로 바뀝니다.
+
+print(not True)
+False
+print(not False)
+True
+
+not 연산자 조합하는 예시코드입니다.
+
+boolean.py
+```python
+x = 10
+under_20 = x < 20
+print("under_20:", under_20)
+print("not under_20", not under_20)
+```
+
+## and 연산자와 or 연산자
+
+and 연산자는 양쪽 변의 값이 모두 참 일때만 True를 결과로 냅니다.
+
+반면 or 연산자는 둘 중 하나만 참이어도 True를 결과로 냅니다.
+
+다음은 and와 or 연산자를 공부하는 예시코드입니다.
+```python
+print(True and True)
+True
+print(True and False)
+False
+print(False and True)
+False
+print(False and False)
+False
+print(True or True)
+True
+print(True or False)
+True
+print(False or True)
+True
+print(False or False)
+False
+```
+
+## if 조건문이란?
+
+if 조건문은 조건에 따라 코드를 실행하거나, 실행하지 않게 만들고 싶을 때 사용하는 구문입니다. 이는 코드의 실행 흐름을 변경한다는 뜻입니다. 이렇게 조건을 기반으로 실행의 흐름을 변경하는 것을 조금 어려운 용어로 조건 분기라고 부릅니다.
+
+if 조건문의 기본적인 구조는 다음과 같습니다.
+
+if 불 값이 나오는 표현식: 
+    불 값이 참일 때 실행할 문장
+    불 값이 참일 때 실행할 문장
+    
+다음은 if문을 사용하여 양수를 입력하면 "양수입니다"를, 음수를 입력하면 "음수입니다"를, 0을 입력하면 "0입니다"를 출력하는 예시코드입니다.
+```python
+# 입력을 받습니다.
+number = input("정수 입력> ")
+number = int(number)
+
+# 양수 조건
+if number > 0:
+    print("양수입니다.")
+
+# 음수 조건
+if number < 0:
+    print("음수입니다.")
+
+# 0 조건
+if number == 0:
+    print("0입니다.")
+```
+
+## 날짜/시간 활용하기
+
+여러 가지 조건문 중 몇 가지를 더 살펴보겠습니다. 
+먼저 시간을 조건으로 구분하여 오전인지 오후인지를 출력하는 프로그램을 작성해 보겠습니다.
+
+다음은 날짜/시간을 출력하는 예시코드입니다.
+```python
+# 날짜/시간과 관련된 기능을 가져옵니다.
+import datetime
+
+# 현재 날짜/시간을 구합니다.
+now = datetime.datetime.now()
+
+# 출력합니다.
+print(now.year, "년")
+print(now.month, "월")
+print(now.day, "일")
+print(now.hour, "시")
+print(now.minute, "분")
+print(now.second, "초")
+```
+
+이전에 배웠던 format() 함수를 활용하여 날짜를 한눈에 볼 수 있게 출력하는 예시 코드입니다.
+```python
+# 날짜/시간과 관련된 기능을 가져옵니다.
+import datetime
+
+# 현재 날짜/시간을 구합니다.
+now = datetime.datetime.now()
+
+# 출력합니다.
+print("{}년 {}월 {}일 {}분 {}초".format(
+    now.year,
+    now.month,
+    now.day,
+    now.hour,
+    now.minute,
+    now.minute,
+    now.second
+))
+```
+
+다음은 오전과 오후를 구분하는 프로그램의 예시코드입니다.
+
+```python
+# 날짜/시간과 관련된 기능을 가져옵니다.
+import datetime
+
+# 현재 날짜/시간을 구합니다.
+now = datetime.datetime.now()
+
+# 오전 구분
+if now.hour < 12:
+    print("현재 시각은 {}시로 오전입니다!".format(now.hour))
+
+# 오후 구분
+if now.hour >= 12:
+    print("현재 시각은 {}시로 오후입니다!".format(now.hour))
+```
+
+다음은 계절을 구분하는 프로그램의 예시코드입니다.
+
+```python
+# 날짜/시간과 관련된 기능을 가져옵니다.
+import datetime
+
+# 현재 날짜/시간을 구합니다.
+now = datetime.datetime.now()
+
+# 봄 구분
+if 3 <= now.month <= 5:
+    print("이번 달은 {}월로 봄입니다!".format(now.month))
+
+# 여름 구분
+if 6 <= now.month <= 8:
+    print("이번 달은 {}월로 여름입니다!".format(now.month))
+xx`
+    print("이번 달은 {}월로 가울입니다!".format(now.month))
+
+# 겨울 구분
+if now.month == 12 or 1 <= now.month <= 2:
+    print("이번 달은 {}월로 겨울입니다!".format(now.month))
+```
+
+다음은 끝자리로 짝수와 홀수 구분하는 프로그램의 예시 코드입니다.
+
+```python
+# 입력을 받습니다.
+number = input("정수 입력> ")
+
+# 마지막 자리 숫자를 추출
+last_character = number[-1]
+
+# 숫자로 변환하기
+last_number = int(last_character)
+
+# 짝수 확인
+if last_number == 0 \
+        or last_number == 2 \
+        or last_number == 4 \
+        or last_number == 6 \
+        or last_number == 8:
+    print("짝수입니다.")
+
+# 홀수 확인
+if last_number == 1 \
+        or last_number == 3 \
+        or last_number == 5 \
+        or last_number == 7 \
+        or last_number == 9:
+    print("홀수입니다.")
+```
+
+다음은 in 문자열 연산자를 활용해서 짝수와 홀수 구분하는 프로그램의 예시코드입니다.
+
+```python
+# 입력을 받습니다.
+number = input("정수 입력> ")
+last_character = number[-1]
+
+# 짝수 조건
+if last_character in "02468":
+    print("짝수입니다.")
+
+# 홀수 조건
+if last_character in "13579":
+    print("홀수입니다.")
+```
+
+다음은 나머지 연산자를 활용해서 짝수와 홀수 구분하는 프로그램의 예시코드입니다.
+```python
+# 입력을 받습니다.
+number = input("정수 입력> ")
+number = int(number)
+
+# 짝수 조건
+if number % 2 == 0:
+    print("짝수입니다.")
+
+# 홀수 조건
+if number % 2 == 1:
+    print("홀수입니다.")
+```
+
+
+  
