@@ -1887,3 +1887,164 @@ for number in numbers:
 
 ie else 구문을 사용해도 똑같지만 continue 키워드를 사용하면 이후 처리의 들여쓰기를 하나 줄일 수 있습니다.
 
+# 문자열, 리스트, 딕셔너리와 관련된 기본 함수
+
+이번 절의 내용은 파이썬만의 고유한 기능들이라고 할 수 있을 정도로, 다른 언어에서는 보기 힘든 형태의 기능들입니다.
+
+1. 리스트에 적용할 수 있는 기본 함수: min(), max(), sum()
+2. 리스트 뒤집기 : reversed()
+3. 현재 인덱스가 몇 번째인지 확인하기 : enumerate()
+4. 딕셔너리로 쉽게 반복문 작성하기 : items()
+5. 리스트 안에 for문 사용하기 : 리스트 내포
+
+## 리스트에 적용할 수 있는 기본 함수: min(), max(), sum()
+
+min(), max(), sum() 함수들은 리스트를 매개변수로 넣어 사용하는 매우 기본적인 함수입니다.
+
+min() : 리스트 내부에서 최솟값을 찾습니다.
+max() : 리스트 내부에서 최댓값을 찾습니다.
+sum() : 리스트 내부에서 값을 모두 더합니다.
+
+```python
+numbers = [103, 52, 273, 32, 77]
+min(numbers)
+32
+max(numbers)
+273
+sum(numbers)
+537
+```
+
+## reversed() 함수로 리스트 뒤집기
+
+리스트에서 요소의 순서를 뒤집고 싶을 때는 reversed() 함수를 사용합니다. reversed() 함수의 매개변수에 리스트를 넣으면 리스트를 뒤집을 수 있습니다.
+
+reversed.py
+```python
+# 리스트를 선언하고 뒤집습니다.
+list_a = [1, 2, 3, 4, 5]
+list_reversed = reversed(list_a)
+
+# 출력합니다.
+print("# reversed() 함수")
+print("reversed([1, 2, 3, 4, 5]):", list_reversed)
+print("list(reversed([1, 2, 3, 4, 5]):", list(list_reversed))
+print()
+
+# 반복문을 적용해봅니다.
+print("# reversed() 함수와 반복문")
+print("for i in reversed([1, 2, 3, 4, 5]):")
+for i in reversed(list_a):
+    print("-", i)
+```
+
+```python
+temp = reversed([1, 2, 3, 4, 5, 6])
+
+for i in temp:
+    print("첫 번째 반복문: {}".format(i))
+    
+for i in temp:
+    print("두 번째 반복문: {}".format(i))
+```
+코드를 실행하면 "첫 번째 반복문"부분믄 실행됩니다. "두 번째 반복문"부분은 전혀 출력되지 않습니다.
+reversed() 함수의 결과는 제너레이터입니다. 제너레이터는 파이썬의 특별한 기능으로, 일단 reversed() 함수와 반복문을 조합할 때는 함수의 결과를 여러 번 활용하지 않고 for 구문 내부에 reversed() 함수를 곧바로 넣어서 사용합니다.
+
+## enumerate() 함수와 반복문 조합하기
+
+enumerate() 함수와 반복문을 조합해서 리스트의 요소를 반복할 때 현재 인덱스가 몇 번째 인지 확인하는 프로그램의 예시코드입니다.
+
+enumerate.py
+```python
+# 변수를 선언합니다.
+example_list = ['요소A', '요소B', '요소C']
+
+#  그냥 출력합니다.
+print("# 단순 출력")
+print(example_list)
+print()
+
+# enumerate() 함수를 적용해 출력합니다.
+print("# enumerate() 함수 적용 출력")
+print(enumerate(example_list))
+print()
+
+# list() 함수로 강제 변환해 출력합니다.
+print("# list() 함수로 강제 변환 출력")
+print(list(enumerate(example_list)))
+print()
+
+# for 반복문과 enumerate() 함수 조합해서 사용하기
+print("# 반복문과 조합하기")
+for i, value in enumerate(example_list):
+    print("{}번 째 요소는 {}입니다.".format(i, value))
+```
+
+## 딕셔너리의 items() 함수와 반복문 조합하기
+
+enumerate() 함수와 반복문을 조합해서 for i, value in enumerate(리스트) 형태로 반복문을 작성할 수 있었던 것처럼 딕셔너리는 item() 함수와 함께 사용하면 키와 값을 조합해서 쉽게 반복문을 작성할 수 있습니다.
+
+딕셔너리의 items()함수와 반복문
+items.py
+```python
+# 변수를 선언합니다.
+example_dictionary = {
+    "키A": "값A",
+    "키B": "값B",
+    "키C": "값C",
+}
+
+# 딕셔너리의 items() 함수 결과 출력하기
+print("# 딕셔너리의 items() 함수")
+print("items():", example_dictionary.items())
+print()
+
+# for 반복문과 items() 함수 조합해서 사용하기
+print("# 딕셔너리의 items() 함수와 반복문 조합하기")
+
+
+for key, element in example_dictionary.items():
+    print("dictionary[{}] = {}".format(key, element))
+```
+
+## 리스트 내포
+
+프로그램을 만들 때는 반복문을 사용해 리스트를 재조합하는 경우가 많습니다.
+
+반복문을 사용한 리스트 생성하는 프로그램의 예시코드입니다.
+
+for_list01.py
+```python
+# 변수를 선언합니다.
+array = []
+
+# 반복문을 적용합니다.
+for i in range(0, 20, 2):
+    array.append(i * i)
+
+# 출력합니다
+print(array)
+```
+
+리스트 안에 for문을 사용하는 리스트 내포 list comprehensions을 사용한 프로그램의 예시코드입니다.
+
+list_in.py
+```python
+# 리스트를 선언합니다.
+array = [i * i for i in range(0, 20, 2)]
+
+# 출력합니다.
+print(array)
+```
+
+뒤에 if 구문을 넣어 조건을 조합할 수도 있습니다. 다음은 조건을 활용한 리스트 내포 프로그램의 예시코드입니다.
+
+array_comprehensions.py
+```python
+# 리스트를 선언합니다.
+array = ["사과", "자두", "초콜릿", "바나나", "체리"]
+output = [fruit for fruit in array if fruit != "초콜릿"]
+
+# 출력합니다.
+print(output)
+```
