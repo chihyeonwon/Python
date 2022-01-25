@@ -2351,3 +2351,222 @@ print("C.", sum_all(end=100, step=2))
 
 함수를 어떻게 잘 만들 것인지는 사실 코드를 많이 보는 방법밖에 없습니다. 이전에 언급했던 것처럼 자신이 나아갈 방향(웹 개발, 기계 학습)등이 있다면 관련된 라이브러리 코드를 많이 살펴보는 것이 좋습니다. 
 
+# 함수의 활용
+
+## 재귀 함수
+
+팩토리얼 연산자를 배웁니다. 간단하게 정리하면 다음과 같은 연산입니다.
+
+n! = n*(n-1)*(n-2)* ... * 1
+
+이러한 팩토리얼을 구하는 방법은 두 가지로 구분할 수 있습니다.
+
+1. 반복문으로 팩토리얼 구하기
+2. 재귀 함수로 팩토리얼 구하기
+
+## 반복문으로 팩토리얼 구하기
+
+다음은 반복문으로 팩토리얼을 구하는 프로그램의 예시코드입니다.
+
+factorial_for.py
+```python
+# 함수를 선언합니다.
+def factorial(n):
+    # 변수를 선언합니다.
+    output = 1
+    # 반복문을 돌려 숫자를 더합니다.
+    for i in range(1, n+1):
+        output *= i
+    # 리턴합니다
+    return output
+
+
+# 함수를 호출합니다.
+print("1!:", factorial(1))
+print("2!:", factorial(2))
+print("3!:", factorial(3))
+print("4!:", factorial(4))
+print("5!:", factorial(5))
+```
+
+## 재귀 함수로 팩토리얼 구하기
+
+두 번째 방법은 재귀 함수를 사용하는 방법입니다. 재귀 recursion 이란 '자기 자신을 호출하는 것'을 의미합니다. 팩토리얼 연산은 이전에 언급했던 것처럼 다음과 같이 표현할 수 있지만
+
+n! = n * (n - 1) * (n - 2) * ... 1
+
+다음과 같이 표현할 수도 있습니다.
+
+factorial(n) = n * factorial(n - 1) (n >= 1 일 때)
+factorial(0) = 1
+
+이와 같은 재귀 표현을 이용하여 factorial(4)를 구해 보겠습니다.
+
+f(4) = 4 * f(3)
+     = 4 * 3 * f(2)
+     = 4 * 3 * 2 * f(1) * f(0)
+     = 4 * 3 * 2 * 1 * 1
+    
+다음은 재귀 함수를 사용해 팩토리얼을 구하는 프로그램의 예시코드입니다.
+
+factorial_recursion.py
+```python
+# 함수를 선언합니다.
+def factorial(n):
+    # n이 0이라면 1을 리턴
+    if n == 0:
+        return 1
+    # n이 0이 아니라면 n * (n-1)을 리턴
+    else:
+        return n * factorial(n-1)
+
+
+# 함수를 호출합니다.
+print("1!:", factorial(1))
+print("2!:", factorial(2))
+print("3!:", factorial(3))
+print("4!:", factorial(4))
+print("5!:", factorial(5))
+```
+
+## 재귀 함수의 문제
+
+재귀 함수는 상황에 따라서 같은 것을 기하급수적으로 많이 반복한다는 문제가 있습니다. 그래서 개발자 사이에서는 재귀 함수를 절대 사용하면 안 된다는 의견도 있습니다. 하지만 필요할 때 적재적소에 활용하면 코드를 쉽게 알아볼 수 있습니다. 재귀 함수로 인해 발생하는 문제를 알아보고, 이후에 이 문제를 해결할 수 있는 메모화 memoization 라는 기술을 알아보겠습니다.
+
+재귀 함수를 하나 더 살펴보겠습니다. 바로 피보나치 수열입니다. 피보나치 수열은 '토끼는 어떠한 속도로 번식하는가' 연구와 '꽃들의 꽃잎 수'를 계산할 때 사용하는 수열입니다. 
+
+다음은 재귀 함수로 피보나치 수열을 구현하는 프로그램의 예시코드입니다.
+
+fibonacci_recursion01.py
+```python
+# 함수를 선언합니다.
+def fibonacci(n):
+    if n == 1:
+        return 1
+    if n == 2:
+        return 1
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+
+
+# 함수를 호출합니다.
+print("fibonacci(1):", fibonacci(1))
+print("fibonacci(2):", fibonacci(2))
+print("fibonacci(3):", fibonacci(3))
+print("fibonacci(4):", fibonacci(4))
+print("fibonacci(5):", fibonacci(5))
+
+print("fibonacci(35):", fibonacci(35))
+```
+
+fibonacci(35)를 입력해서 35번째 피보나치 수를 구했을 때 4초 정도 걸리고 fibonacci(50)을 만들어서 50번째 피보나치 숫자를 구할 때는 1시간이 걸립니다.
+
+다음은 재귀함수의 연산의 수를 구하는 코드로 변경해보겠습니다.
+
+```python
+# 변수를 선언합니다.
+counter = 0
+
+# 함수를 선언합니다.
+
+
+def fibonacci(n):
+    # 어떤 피보나치 수를 구하는지 출력합니다.
+    print("fibonacci({})를 구합니다.".format(n))
+    global counter
+    counter += 1
+    # 피보나치 수를 구합니다.
+    if n == 1:
+        return 1
+    if n == 2:
+        return 1
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+
+
+# 함수를 호출합니다.
+fibonacci(10)
+print("---")
+print("fibonacci(10) 계산에 활용된 덧셈 횟수는 {}번입니다".format(counter))
+```
+코드를 실행해보면 같은 것을 여러 번 연산한다는 것을 확인할 수 있습니다. 이렇게 덧셈 횟수가 기하급수적으로 늘어나는 이유는 트리 내부에 있는 각각의 노드 값을 계산하려면 덧셈을 한 번씩 해야합니다. 그런데 노드가 한 번에 두 개씩 달려 있습니다. 한 번 구한 값은 그것으로 계산이 끝나면 좋겠지만, 현재 코드의 재귀 함수는 한 번 구했던 값이라도 처음부터 다시 계산해야 합니다. 그래서 계산 횟수가 기하급수적으로 늘어나는 것입니다.
+
+## UnboundLocalError에 대한 처리
+
+파이썬은 함수 내부에서 함수 외부에 있는 변수를 참조하지 못합니다. 변수에 접근하는 것을 참조 reference라고 부릅니다. 함수 내부에서 함수 외부에 있는 변수라는 것을 설명하려면 다음과 같은 구문을 사용합니다.
+
+global 변수 이름
+
+global 키워드는 파이썬 프로그래밍 언어에만 있는 특이한 구조입니다.
+
+## 메모화
+
+재귀 함수의 이러한 문제 때문에 재귀 함수를 사용하지 말라는 개발자도 있습니다. 하지만 필요한 경우에 활용하면 코드가 간결해지며 읽기도 쉬워집니다.
+현재 문제는 같은 값을 구하는 연산을 반복하고 있기 때문에 발생하는 것입니다. 따라서 같은 값을 한 번만 계산하도록 코드를 수정하면 됩니다.
+
+다음은 메모화를 적용한 프로그램의 예시코드입니다.
+
+fibonacci_memo.py
+```python
+# 메모 변수를 만듭니다.
+dictionary = {
+    1: 1,
+    2: 1
+}
+
+# 함수를 선언합니다.
+
+
+def fibonacci(n):
+    if n in dictionary:
+        # 메모가 되어 있으면 메모된 값을 리턴
+        return dictionary[n]
+    else:
+        # 메모가 되어 있지 않으면 값을 구함
+        output = fibonacci(n - 1) + fibonacci(n - 2)
+        dictionary[n] = output
+        return output
+
+
+# 함수를 호출합니다.
+print("fibonacci(10):", fibonacci(10))
+print("fibonacci(20):", fibonacci(20))
+print("fibonacci(30):", fibonacci(30))
+print("fibonacci(40):", fibonacci(40))
+print("fibonacci(50):", fibonacci(50))
+```
+
+딕셔너리를 사용해서 한 번 계산한 값을 저장합니다. 이를 메모 memo한다고 표현합니다. 딕셔너리에 값이 메모되어 있으면 처리를 수행하지 않고 곧바로 메모된 값을 돌려주면서 코드의 속도를 빠르게 만드는 것입니다.
+이전에는 fibonacci(50)을 계산하는 데 한참 걸렸지만, 메모화를 사용하면 실행 후 곧바로 결과를 출력할 정도로 속도가 빨라집니다. 재귀 함수와 함께 많이 사용되는 기술이므로 기억하는 게 좋습니다.
+
+## 조기 리턴
+
+과거에는 프로그래밍을 할 때 변수는 반드시 앞 쪽에 몰아서 선언하고, 리턴은 반드시 뒤쪽에서 해야한다는 비공식적인 규칙이 있었습니다. 하지만 요즘에는 필요할 때 하면 된다는 인식이 널리 퍼졌습니다. 
+
+다음은 조기리턴을 사용하지 않은 프로그램의 예시코드입니다.
+
+```python
+def fibonacci(n):
+    if n in dictionary:
+        # 메모되어 있으면 메모된 값을 리턴
+        return dictionary[n]
+    else:
+        # 메모되어 있지 않으면 값을 구함
+        output = dictionary(n - 1) + dictionary(n - 2)
+        dictionary[n] = output
+        return output
+```
+다음은 조기리턴을 적용한 프로그램의 예시코드입니다. 
+```python
+def fibonacci(n):
+    if n in dictionary:
+        # 메모되어 있으면 메모된 값을 리턴
+        return dictionary[n]
+    # 메모되어 있지 않으면 값을 구함
+    output = dictionary(n - 1) + dictionary(n - 2)
+    dictionary[n] = output
+    return output
+```
+
+들여쓰기 단계가 줄기 때문에 코드를 더 쉽게 읽을 수 있습니다. 이렇게 흐름 중간에 return 키워드를 사용하는 것을 조기 리턴 early return이라고 부릅니다.
+
