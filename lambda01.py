@@ -1,5 +1,7 @@
 # 함수를 선언합니다.
 def power(x): return x*x
+
+
 def under_3(x): return x < 3
 
 
