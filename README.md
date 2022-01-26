@@ -2873,3 +2873,114 @@ with open("basic.txt", "r") as file:
     contents = file.read()
 print(contents)
 ```
+## 텍스트 한 줄씩 읽기
+
+텍스트를 사용해 데이터를 구조적으로 표현할 수 있는 방법으로 CSV, XML, JSON 등이 있습니다. 이 중에서 CSV를 살펴보겠습니다. CSV 는 Comma Seperated Values의 줄임말로 쉼표로 구분된 값들을 의미합니다. 
+
+이름, 키, 몸무게
+윤인성, 176, 62
+연하진, 169, 50
+
+CSV 파일은 한 줄에 하나의 데이터를 나타내며, 각각의 줄은 쉼표를 사용해 데이터를 구분합니다. 
+이때 첫 번째 줄에 헤더 header를 넣어 각 데이터가 무엇을 나타내는지 설명해 줄 수 있습니다.
+
+간단한 코드로 1000명의 이름, 키, 몸무게 데이터를 만드는 프로그램의 예시코드입니다.
+
+file_write.py
+```python
+# 랜덤한 숫자를 만들기 위해 가져옵니다.
+import random
+# 간단한 한글 리스트를 만듭니다.
+hanguls = list("가나다라마바사아자차카타파하")
+# 파일을 쓰기 모드로 엽니다.
+with open("info.txt", "w") as file:
+    for i in range(1000):
+        # 랜덤한 값으로 변수를 생성합니다.
+        name = random.choice(hanguls) + random.choice(hanguls)
+        weight = random.randrange(40, 100)
+        height = random.randrange(140, 200)
+        # 텍스트를 씁니다.
+        file.write("{}, {}, {}\n".format(name, weight, height))
+```
+데이터가 많이 있다고 가정하고 한 줄씩 읽어 들일 때는 for 반복문을 다음과 같은 형태로 사용합니다.
+
+for 한 줄을 나타내는 문자열 in 파일 객체:
+    처리
+    
+이전에 만든 데이터를 한 줄씩 읽으면서 키와 몸무게로 BMI(비만도)를 계산해보는 프로그램의 예시코드입니다.
+
+file_readlines.py
+```python
+# 결과를 계산합니다.
+        bmi = int(weight) / ((int(height) / 100) ** 2)
+        result = ""
+        if 25 <= bmi:
+            result = "과체중"
+        elif 18.5 <= bmi:
+            result = "정상 체중"
+        else:
+            result = "저체중"
+
+        # 출력합니다.
+        print('\n'.join([
+            "이름: {}",
+            "몸무게: {}",
+            "키: {}",
+            "BMI: {}",
+            "결과: {}"
+        ]).format(name, weight, height, bmi, result))
+        print()
+ ```
+ 
+ ## 제너레이터
+ 
+ 제너레이터 generator는 파이썬의 특수한 문법 구조입니다. 제너레이터는 이터레이터를 직접 만들 때 사용하는 코드입니다. 함수 내부에 yield 키워드를 사용하면 해당 함수는 제너레이터 함수가 되며, 일반 함수와는 달리 함수를 호출해도 함수 내부의 코드가 실행되지 않습니다. 다음은 제너레이터 함수를 이용하는 프로그램의 예시코드입니다.
+ 
+generator.py
+```python
+# 함수를 선언합니다.
+def test():
+    print("함수가 호출되었습니다.")
+    yield "test"
+
+
+# 함수를 호출합니다.
+print("A 지점 통과")
+test()
+
+print("B 지점 통과")
+test()
+```
+
+원래 test() 함수를 호출하면 "함수가 호출되었습니다"라는 문자열이 출력되어야 하지만, 출력되지 않습니다. 제너레이터 함수는 제너레이터를 리턴합니다. 제너레이터 객체는 next()함수를 사용해 함수 내부의 코드를 실행합니다. 이때 yield 키워드 부분까지만 실행하며, next()함수의 리턴값으로 yield 키워드 뒤에 입력한 값이 출력됩니다.
+
+다음은 제너레이터 객체와 next()함수를 사용한 프로그램의 예시코드입니다.
+
+generator01.py
+```python
+# 함수를 선언합니다.
+def test():
+    print("A 지점 통과")
+    yield 1
+    print("B 지점 통과")
+    yield 2
+    print("C 지점 통과")
+
+
+# 함수를 호출합니다.
+output = test()
+# next() 함수를 호출합니다.
+print("D 지점 통과")
+a = next(output)
+print(a)
+print("E 지점 통과")
+b = next(output)
+print("F 지점 통과")
+c = next(output)
+print(c)
+# 한 번 더 실행하기
+next(output)
+```
+
+코드를 실행하면 next() 함수를 호출할 때마다 "A 지점 통과", "B 지점 통과", "C 지점 통과"처럼 함수 내부의 내용이 진행되는 모습을 확인할 수 있습니다. next() 함수 호출한 이후 yield 키워드를 만나지 못하고 함수가 끝나면 StopIteration 이라는 예외가 발생합니다.
+이처럼 제너레이터 객체는 함수의 코드를 조금씩 실행할 때 사용합니다. 이는 메모리의 효율성을 위해서입니다. 제너레이터 객체와 이터레이터 객체는 완전히 같지는 않지만, 기본적인 단계에서는 거의 비슷하다고 봐도 무방합니다. 
