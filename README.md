@@ -2570,3 +2570,306 @@ def fibonacci(n):
 
 들여쓰기 단계가 줄기 때문에 코드를 더 쉽게 읽을 수 있습니다. 이렇게 흐름 중간에 return 키워드를 사용하는 것을 조기 리턴 early return이라고 부릅니다.
 
+# 함수 고급
+
+반복문 때와 마찬가지로, 지금까지 살펴보았던 함수 관련 내용은 모든 프로그램이 언어에서 거의 비슷한 형태로 사용할 수 있는 내용입니다. 그런데 파이썬은 함수를 조금 더 편리하게 사용할 수 있게 다양한 기능들을 제공해 줍니다. 그 대표적인 것이 튜플 tuple과 람다 lambda입니다.
+
+1. 튜플 : 함수와 함께 많이 사용되는 리스트와 비슷한 자료형으로, 리스트와 다른 점은 한번 결정된 요소는 바꿀 수 없다는 것
+2. 람다 : 매개변수로 함수를 전달하기 위해 함수 구문을 작성하는 것이 번거롭고, 코드 공간 낭비라는 생각이 들 때 함수를 간단하고 쉽게 선언하는 방법
+
+## 튜플 
+
+튜플 tuple은 리스트와 비슷한 자료형입니다. 리스트와 다른 점은 한번 결정된 요소를 바꿀 수 없다는 것입니다. 일반적으로 튜플은 함수와 함께 많이 사용되는 자료형입니다. 튜플은 다음과 같은 방법으로 생성합니다.
+
+(데이터, 데이터, 데이터, ..)
+
+다음은 튜플을 선언해 생성한 후 각 요소를 출력하는 예시코드입니다.
+```python
+tuple_test = (10, 20, 30)
+
+tuple_test[0]
+10
+tuple_test[1]
+20
+tuple_test[2]
+30
+```
+
+여기까지만 살펴보면 튜플과 리스트에 차이가 없습니다. 하지만 요소를 변경할 때 차이가 있습니다. 0번째 요소에 1을 넣으려고 하니 에러를 발생합니다. 튜플은 내부 요소 변경이 불가능합니다
+
+## 괄호 없는 튜플
+
+파이썬의 리스트와 튜플은 특이한 형태의 할당 구문으로 사용할 수 있습니다. 
+
+다음은 리스트와 튜플의 특이한 사용 프로그램의 예시코드입니다.
+
+tuple_basic.py
+```python
+# 리스트와 튜플의 특이한 사용
+[a, b] = [10, 20]
+(c, d) = (10, 20)
+
+# 출력합니다.
+print("a:", a)
+print("b:", b)
+print("c:", c)
+print("d:", d)
+```
+
+리스트와 튜플을 사용하면 이와 같은 형태로 변수를 선언하고 할당할 수 있습니다. 그런데 튜플은 정말 특이한 성질이 있습니다. 괄호를 생략해도 튜플로 인식할 수 있는 경우는 괄호를 생략해도 됩니다. 
+다음은 괄호가 없는 튜플을 이용한 프로그램의 예시코드입니다.
+
+tuple_use01.py
+```python
+# 괄호가 없는 튜플
+tuple_test = 10, 20, 30, 40
+print("# 괄호가 없는 튜플의 값과 자료형 출력")
+print("tuple_test:", tuple_test)
+print("type(tuple_test):", type(tuple_test))
+print()
+
+# 괄호가 없는 튜플 활용
+a, b, c = 10, 20, 30
+print("# 괄호가 없는 튜플을 활용한 할당")
+print("a:", a)
+print("b:", b)
+print("c:", c)
+```
+편리함으로 인해 자주 사용되는 형태입니다. 이러한 특이한 구문의 편리함은 다음 코드로 확인할 수 있습니다.
+다음은 변수의 값을 교환하는 프로그램의 예시코드입니다.
+
+tuple_use02.py
+```python
+a, b = 10, 20
+
+print("# 교환 전 값")
+print("a:", a)
+print("b:", b)
+print()
+
+# 값을 교환합니다.
+a, b = b, a
+
+print("# 교환 후 값")
+print("a:", a)
+print("b:", b)
+print()
+```
+
+a, b = b, a 라는 코드만으로 값이 바뀝니다.
+
+## 튜플과 함수
+
+튜플은 함수의 리턴에 많이 사용합니다. 함수의 리턴에 튜플을 사용하면 여러 개의 값을 리턴하고 할당할 수 있기 때문입니다. 다음 코드의 실행결과를 예측해 보세요. 튜플을 사용해 할당할 수 있다는 것을 깨달으면 쉽게 이해할 수 있는 코드입니다.
+
+tuple_return.py
+```python
+# 함수를 선언합니다.
+def test():
+    return(10, 20)
+
+
+# 여러 개의 값을 리턴받습니다.
+a, b = test()
+
+# 출력합니다.
+print("a:", a)
+print("b:", b)
+```
+
+튜플도 리스트처럼 + 와 * 연산자 등을 활용할 수 있습니다. 하지만 그런 것들을 리스트로 작성하는 것과 큰 차이가 없어서 튜플을 사용하는 경우는 거의 없습니다. 이번 절에서 살펴본 것처럼 괄호 없이 여러 값을 활당하는 것은 튜플로만 할 수 있는 일입니다.
+
+## 람다
+
+요즘 프로그래밍 언어에서는 함수라는 '기능'을 매개변수로 전달하는 코드를 많이 사용합니다. 그리고 이런 코드를 조금 더 효율적으로 작성할 수 있도록 파이썬은 람다 lambda 라는 기능을 제공합니다.
+
+### 함수의 매개변수로 함수 전달하기
+
+함수를 매개변수로 전달하는 것부터 람다까지 알아보겠습니다.
+
+다음은 함수의 매개변수로 함수를 전달하는 프로그램의 예시코드입니다.
+
+func_as_param.py
+```python
+# 매개변수로 받은 함수를 10번 호출하는 함수
+def call_10_times(func):
+    for i in range(10):
+        func()
+
+# 간단한 출력하는 함수
+
+
+def print_hello():
+    print("안녕하세요")
+
+
+# 조합하기
+call_10_times(print_hello)
+```
+
+프로그램을 실행하면 print_hello() 함수를 10번 실행합니다. 따라서 "안녕하세요"라는 문자열을 10번 출력합니다.
+
+## filter() 함수와 map() 함수
+
+함수를 매개변수로 전달하는 대표적인 표준 함수로 map() 함수와 filter() 함수가 있습니다. *파이썬이 표준으로 제공하는 함수를 '내장 함수' 또는 '표준 함수'라고 합니다.
+
+map() 함수는 리스트의 요소를 함수에 넣고 리턴된 값으로 새로운 리스트를 구성해 주는 함수입니다.
+
+map(함수, 리스트)
+
+filter() 함수는 리스트의 요소를 함수에 넣고 리턴된 값이 True 인 것으로, 새로운 리스트를 구성해 주는 함수입니다.
+
+filter(함수, 리스트)
+
+다음은 map() 함수와 filter() 함수를 사용하는 프로그램의 예시코드입니다.
+
+call_with_func.py
+```python
+# 함수를 선언합니다.
+def power(item):
+    return item * item
+
+
+def under_3(item):
+    return item < 3
+
+
+# 변수를 선언합니다.
+list_input_a = [1, 2, 3, 4, 5]
+
+# map() 함수를 사용합니다.
+output_a = map(power, list_input_a)
+print("# map() 함수의 실행결과")
+print("map(power, list_input_a:", output_a)
+print("map(power, list_input_a:", list(output_a))
+
+# filter() 함수를 사용합니다.
+output_b = filter(under_3, list_input_a)
+print("# filter() 함수의 실행결과")
+print("filter(under_3, list_input_a):", output_b)
+print("filter(under_3, list_input_a):", list(output_b))
+```
+
+## 람다의 개념
+
+매개변수로 함수를 전달하기 위해 함수 구문을 작성하는 것도 번거롭고, 코드 공간 낭비라는 생각이 들 수 있습니다. 많은 개발자들이 이러한 생각을 했고, 그래서 람다 lambda 라는 개념을 생각했습니다. 람다는 '간단한 함수를 쉽게 선언하는 방법'입니다. 다음과 같은 형태로 만듭니다.
+
+lambda 매개변수: 리턴값
+
+이전 코드를 람다로 변경해 보겠습니다. power() 함수와 under_3() 함수를 람다로 변환하면 다음과 같은 코드가 됩니다. def 키워드로 선언했던 함수를 lambda로 바꾸고, return 키워드를 따로 쓰지않았다는 정도의 차이가 생겼습니다.
+
+다음은 이전의 코드를 람다 lambda 구문을 사용한 프로그램의 예시코드입니다.
+
+lambda01.py
+```python
+# 함수를 선언합니다.
+power = lambda x:x*x
+under_3 = lambda x:x<3
+
+# 변수를 선언합니다.
+list_input_a = [1, 2, 3, 4, 5]
+
+# map() 함수를 사용합니다.
+output_a = map(power, list_input_a)
+print("# map() 함수의 실행 결과")
+print("map(power, list_input_a):", output_a)
+print("map(power, list_input_a):", list(output_a))
+print()
+
+# filter() 함수를 사용합니다.
+output_b = filter(under_3, list_input_a)
+print("# filter() 함수의 실행결과")
+print("filter(under_3, list_input_a):", output_b)
+print("filter(under_3, list_input_a):", list(output_b))
+```
+람다는 간단한 함수를 쉽게 선언하는 방법이라고 했는데, 왜 사용하는지가 의심스러울 정도로 복잡합니다. 람다는 다음과 같이 함수의 매개변수에 곧바로 넣을 수 있습니다. 코드가 굉장히 깔끔해집니다.
+
+lambda02.py
+```python
+# 변수를 선언합니다.
+list_input_a = [1, 2, 3, 4, 5]
+
+# map() 함수를 사용합니다.
+output_a = map(lambda x:x*x, list_input_a)
+print("# map() 함수의 실행 결과")
+print("map(power, list_input_a):", output_a)
+print("map(power, list_input_a):", list(output_a))
+print()
+
+# filter() 함수를 사용합니다.
+output_b = filter(lambda x:x<3, list_input_a)
+print("# filter() 함수의 실행결과")
+print("filter(under_3, list_input_a):", output_b)
+print("filter(under_3, list_input_a):", list(output_b))
+```
+실행결과는 이전과 같습니다. 람다를 사용하면 코드를 더 깔끔하게 작성할 수 있고 함수가 매개변수로 넣어졌다고 확인하고 어떤 함수인지를 알기 위해 다시 찾아 올라가는 수고를 하지 않아도 됩니다. 지금은 매개변수가 하나인 람다만을 살펴보았는데, 다음과 같이 매개변수가 여러 개인 람다도 만들 수 있습니다.
+
+lambda x,y : x*y
+
+## 파일 처리
+
+파일과 관련된 처리를 하는 함수는 표준 함수가 기본으로 제공됩니다. 파일은 크게 텍스트 파일과 바이너리 파일로 나뉘는데, 여기는 '텍스트 파일'과 관련된 내용만 살펴보겠습니다. 
+파일을 처리하려면 일단 파일 열기 open 을 해야 합니다. 파일을 열면 파일 읽기 read 또는 파일 쓰기 write를 할 수 있습니다.
+
+## 파일 열고 닫기
+
+파일을 열 때는 open()함수를 사용합니다.
+
+파일 객체 = open(문자열: 파일 경로, 문자열: 읽기 모드)
+
+open() 함수의 첫 번째 매개변수에는 파일 경로 read를 입력하고, 두 번째 매개변수에는 모드 mode를 지정합니다 모드에는 다음과 같은 것을 지정할 수 있습니다.
+
+w : write 모드(새로 쓰기 모드)
+a : append 모드(뒤에 이어서 쓰기 모드)
+r : read 모드(읽기 모드)
+
+파일을 닫을 때는 close()함수를 사용합니다.
+
+파일 객체.close()
+
+다음은 파일을 열고 간단한 글을 써보는 예제코드입니다.
+
+file_open.py
+```python
+# 파일을 엽니다.
+file = open("basic.txt", "w")
+
+# 파일에 텍스트를 씁니다.
+file.write("Hello Python Programming...!")
+
+# 파일을 닫습니다.
+file.close()
+```
+
+## with 키워드
+
+프로그램이 길어지면 open() 함수와 close() 함수 사이에 많은 코드가 들어갑니다. 조건문과 반복문이 들어가다 보면 파일을 열고 닫지 않는 실수를 하는 경우가 생길 수 있습니다. 이런 실수를 방지하기 위해 with 키워드라는 기능이 생겼습니다. with 키워드는 다음과 같은 형태의 구문으로 사용합니다.
+
+with open(문자열: 파일 경로, 문자열: 모드) as 파일 객체:
+    문장
+    
+이전 코드를 with 구문으로 수정하면 다음과 같습니다.
+```python
+with open("basic.txt", "w") as file:
+    # 파일에 텍스트를 씁니다.
+    file.write("Hello Python Programming ...!")
+```
+
+## 텍스트 읽기
+
+파일에 텍스트를 쓸 때는 방금 살펴보았던 것처럼 write() 함수를 사용합니다. 반대로 파일을 읽을 때는 read() 함수를 사용합니다.
+
+파일 객체.read()
+
+파일을 열고 파일 객체의 read() 함수를 호출하기만 하면 내부에 있는 데이터를 모두 읽어 출력합니다.
+
+다음은 read()함수로 텍스트를 읽는 예시 코드입니다.
+
+file_read.py
+```python
+# 파일을 엽니다.
+with open("basic.txt", "r") as file:
+    # 파일을 읽고 출력합니다.
+    contents = file.read()
+print(contents)
+```
