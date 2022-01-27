@@ -2983,4 +2983,600 @@ next(output)
 ```
 
 코드를 실행하면 next() 함수를 호출할 때마다 "A 지점 통과", "B 지점 통과", "C 지점 통과"처럼 함수 내부의 내용이 진행되는 모습을 확인할 수 있습니다. next() 함수 호출한 이후 yield 키워드를 만나지 못하고 함수가 끝나면 StopIteration 이라는 예외가 발생합니다.
-이처럼 제너레이터 객체는 함수의 코드를 조금씩 실행할 때 사용합니다. 이는 메모리의 효율성을 위해서입니다. 제너레이터 객체와 이터레이터 객체는 완전히 같지는 않지만, 기본적인 단계에서는 거의 비슷하다고 봐도 무방합니다. 
+이처럼 제너레이터 객체는 함수의 코드를 조금씩 실행할 때 사용합니다. 이는 메모리의 효율성을 위해서입니다. 제너레이터 객체와 이터레이터 객체는 완전히 같지는 않지만, 기본적인 단계에서는 거의 비슷하다고 봐도 무방합니다.
+
+# 예외 처리
+
+## 오류의 종류
+
+프로그래밍 언어의 오류 error에는 크게 두 가지 종류가 있습니다.
+
+1. 프로그램 실행 전에 발생하는 오류
+2. 프로그램 실행 중에 발생하는 오류
+
+두 가지 모두 '오류'라고 부릅니다. 실행 전에 발생하는 오류를 구문 오류 Syntax error라고 부르며, 프로그램 실행 중에 발생하는 오류를 예외 exception 또는 런타임 오류 runtime error 라고 구분합니다. 
+
+## 구문 오류
+
+구문 오류는 괄호의 개수, 들여쓰기 문제 등으로 인해 프로그램이 실행되기도 전에 발생하는 오류입니다. print()함수의 매개 변수에 넣은 문자열이 닫히지 않았습니다.
+
+구문 오류가 발생하는 코드
+```python
+# 프로그램시작
+print(" 프로그램이 시작되었습니다!")
+
+# 구문 오류 발생 코드
+print("# 예외를 강제로 발생시켜 볼게요!)
+```
+코드를 실행하면 EOL End Of Line에 문제가 있다고 합니다. 중요한 것은 앞에 적혀 있는 SyntaxError 라는 단어입니다. SyntaxError는 구문에 문제가 있어 프로그램이 실행조차 되지 않는 오류입니다. 구문오류는 해결하지 않으면 프로그램 자체가 실행되지 않습니다. 따라서 코드를 제대로 수정해야 합니다.
+
+## 예외
+
+예외 또는 런타임 오류는 실행 중에 발생하는 오류를 의미합니다.
+ 
+예외가 발생하는 코드
+```python
+# 프로그램 시작
+print("# 프로그램이 시작되었습니다!")
+
+# 예외 발생 코드
+list_a[1]
+```
+코드를 실행하면 일단 "# 프로그램이 시작되었습니다!"라는 문자열이 출력됩니다. 그러니까 일단 프로그램이 실행되었다는 의미입니다. 그런데 list_a[1]을 읽을 때 NameError가 발생했습니다.
+이처럼 프로그램이 일단 실행된 다음, 실행 중에 발생하는 오류를 예외 exception 또는 런타임 오류 runtime error라고 부릅니다.
+
+예외를 해결하는 방법도 구문 오류와 다르지 않습니다. 코드를 제대로 작성하면 됩니다. name 'list_a' is not defined는 list_a 라는 이름을 가진 것이 정의되지 않았다는 의미이므로, list_a라는 이름을 가진것을 만들어주면 됩니다.
+
+## 기본 예외 처리
+
+예외를 해결하는 모든 것을 예외 처리 exception handling라고 부릅니다. 예외를 처리하는 방법은 다음 두 가지로 나뉩니다.
+
+1. 조건문을 사용하는 방법
+2. try 구문을 사용하는 방법
+
+일단 조건문을 사용해서 예외를 처리하는 방법부터 살펴보겠습니다. 이와 같은 예외 처리 방법을 기본 예외 처리라고 부릅니다.
+
+## 예외 상황 확인하기
+
+일단 예외가 발생할 상황을 만들어 보겠습니다.
+```python
+# 숫자를 입력받습니다.
+number_input_a = int(input("정수 입력> "))
+
+# 출력합니다.
+print("원의 반지름:", number_input_a)
+print("원의 둘레:", 2*3.14*number_input_a)
+print("원의 넓이:", 3.14*number_input_a*number_input_a)
+```
+이 프로그램에 만약 정수를 입력하지 않으면 예외가 발생할 것입니다.
+
+## 조건문으로 예외 처리하기
+
+이전 코드에서 정수를 입력하지 않으면 문제가 발생합니다. 따라서 '정수를 입력하지 않았을 때'를 조건으로 구분해서 해당 상황일 때 다른 처리를 하도록 설정해 보겠습니다.
+문자열의 isdigit() 함수를 사용해서 숫자로만 구성된 글자인지 확인합니다. 이렇게 하면 int()함수를 이용해 숫자로 변환할 수 없는 문자열을 반환하면서 발생하는 예외를 피할 수 있습니다.
+
+다음은 조건문으로 예외를 처리하는 프로그램의 예시코드입니다.
+
+handle_with_condition.py
+```python
+# 숫자를 입력받습니다.
+user_input_a = input("정수 입력> ")
+
+# 사용자 입력이 숫자로만 구성되어 있을 때
+if user_input_a.isdigit():
+    # 숫자로 반환합니다.
+    number_input_a = int(user_input_a)
+    # 출력합니다.
+    print("원의 반지름:", number_input_a)
+    print("원의 둘레:", 2*3.14*number_input_a)
+    print("원의 넓이:", 3.14*number_input_a*number_input_a)
+else:
+    print("정수를 입력하지 않았습니다.")
+```
+코들를 실행하고 정수를 입력하면 정상적인 값을 출력합니다. 정수로 변환할 수 없는 문자열을 입력했을 때는 isdigit() 함수를 사용해 숫자로 구성되어 있지 않다는 것을 확인하고, else 구문 쪽으로 들어가서 "정수를 입력하지 않았습니다" 라는 문자열을 출력합니다. 프로그램이 중간에 강제로 죽지 않고 정상으로 종료됩니다. 프로그램을 작성할 때는 항상 예외적인 상황까지 모두 생가하는 습관을 기르는 게 좋습니다. 그러한 상황이 언제 발생하는지와 관련된 조건을 스스로 구분할 수 있으면 쉽게 예외를 처리할 수 있습니다.
+
+## try except 구문
+
+원래 초기의 프로그래밍 언어는 조건문으로만 예외를 처리했습니다. 하지만 예외가 발생할 상황을 예측하고 모두 조건문으로 처리하는 것은 매우 힘든 일입니다. 프로그래밍 언어의 구조적인 문제로 인해 조건문만으로 예외를 처리할 수 없는 경우도 있습니다.
+그래서 요즘 프로그래밍 언어는 예외를 처리할 수 있는 구문을 제공합니다. 바로 try except 구문입니다. try except 구문의 기본적인 구조는 다음과 같습니다.
+
+try:
+    예외가 발생할 가능성이 있는 코드
+except:
+    예외가 발생했을 때 실행할 코드
+
+그럼 이전의 예제를 try except 구문으로 변경해 보겠습니다. 예외가 발생할 가능성이 있는 코드를 모두 try 구문 안에 넣고 예외가 발생했을 때 실행할 코드를 모두 except 구문 안에 넣으면 됩니다. 어떤 상황에 예외가 발생하는지 완벽하게 이해하고 있지 않아도 프로그램이 강제로 죽어 버리는 상황을 막을 수 있습니다.
+
+handle_with_try.py
+```python
+# try except 구문으로 예외를 처리합니다.
+try:
+    # 숫자로 변환합니다.
+    number_input_a = int(input("정수 입력> "))
+    # 출력합니다.
+    print("원의 반지름:", number_input_a)
+    print("원의 둘레:", 2*3.14*number_input_a)
+    print("원의 넓이:", 3.14*number_input_a*number_input_a)
+except:
+    print("무언가 잘못되었습니다.")
+```
+코드를 실행하고 정수로 변환할 수 없는 문자열을 입력해도 프로그램이 강제로 종료되는 일 없이 예외 처리를 하고 정상적으로 종료됩니다.
+
+## try except 구문과 pass 키워드 조합하기
+
+프로그래밍을 하다 보면 이유는 정확히 모르겠지만, 어떤 부분에서 예외가 발생하는지 정도는 파악할 수 있는 상황이 있습니다. 예외가 발생하면 일단 처리해야 하지만, 해당 코드가 딱히 중요한 부분이 아니라면 일단 프로그램이 강제 종료되는 것부터 막자는 목적으로 except 구문에 아무 것도 넣지 않고 try 구문을 사용하게 됩니다.
+하지만 구문 내부에 아무 것도 넣지 않으면 구문 오류가 발생하므로 pass 키워드를 넣어 줍니다.
+
+try:
+    예외가 발생할 가능성이 있는 코드
+except:
+    pass
+    
+예외를 잘 활용하면 간단한 코드로 필요한 기능을 구현할 수 있습니다.
+
+다음은 숫자로 변환되는 것들만 리스트에 넣는 프로그램의 예시 코드입니다.
+
+try_pass.py
+```python
+# 변수를 선언합니다.
+from re import T
+
+
+list_input_a = ["52", "273", "32", "스파이", "103"]
+
+# 반복을 적용합니다.
+list_number = []
+for item in list_input_a:
+    # 숫자로 변환해서 리스트에 추가합니다.
+    try:
+        float(item)  # 예외가 발생하면 알아서 다음으로 진행이 되지 않습니다.
+        list_number.append(item)  # 예외 없이 통과했다면 리스트에 넣습니다.
+    except:
+        pass
+
+# 출력합니다.
+print("{} 내부에 있는 숫자는".format(list_input_a))
+print("{}입니다.".format(list_number))
+```
+숫자로 변환할 수 없는 문자열이라면 float(item)를 실행할 때 예외가 발생합니다. 따라서 이를 이용해서 try except 구문으로 감싸고 예외가 발생하지 않는 경우에만 list_number.append(item)가 실행되도록 만드는 코드입니다.
+물론 try except 구문은 if 구문을 활용하는 코드에 비해 아주 약간 느립니다. 파이썬 자체가 그렇게 속도를 중요시하는 프로그래밍 언어가 아니므로 코드를 조금 더 쉽게 작성할 목적이라면 사용해도 괜찮다고 생각합니다.
+
+## try except else 구문
+
+try except 구문 뒤에는 else 구문을 붙여서 사용하는 '예외가 발생하지 않았을 때 실행할 코드'를 정할 수 있습니다.
+
+try:
+    예외가 발생할 가능성이 있는 코드
+except:
+    예외가 발생했을 때 실행할 코드
+else:
+    예외가 발생하지 않았을 때 실행할 코드
+
+try except else 구문을 사용할 때는 예외가 발생할 가능성이 있는 코드만 try 구문 내부에 넣고 나머지를 모두 else 구문으로 빼는 경우가 많습니다. 
+
+다음은 try except else 구문을 사용한 프로그램의 예시코드입니다.
+try_except_else.py
+```python
+# try except else 구문으로 예외를 처리합니다.
+try:
+    # 숫자로 변환합니다.
+    number_input_a = int(input("정수 입력> "))
+except:
+    print("정수를 입력하지 않았습니다.")
+else:
+    # 출력합니다.
+    print("원의 반지름:", number_input_a)
+    print("원의 둘레:", 2*3.14*number_input_a)
+    print("원의 넓이:", 3.14*number_input_a*number_input_a)
+```
+사실 코드를 보고 왜 이렇게 써야 하는지, 그냥 이전 코드처럼 try 구문 안에 모두 넣으면 안되는 건지 궁금할 수 있습니다. C++, C#, Java, JavaScript, PHP, ObjectiveC, Swift, Kotlin 등의 프로그래밍 언어는 예외 처리에 else 구문이 없습니다. 예외 처리에 else 구문이 있는 프로그래밍 언어는 파이썬과 루비 정도입니다.
+수많은 프로그래밍 언어 중에 몇몇 프로그래밍 언어만 가지고 있는 기능은 다른 말로 하면, 그 기능이 없어도 프로그램을 만드는 데 문제가 없다는 것입니다. 한마디로 말해 꼭 이렇게 코드를 작성할 필요는 없고 else 구문을 사용하지 않고 try 구문 내부에 모두 넣고 처리해도 괜찮습니다. 편한 대로 사용하는 게 좋습니다.
+
+## finally 구문
+
+finally 구문은 예외 처리 구문에서 가장 마지막에 사용할 수 있는 구문입니다. 예외가 발생하든 발생하지 않든 무조건 실행할 때 사용하는 코드입니다.
+
+try: 
+    예외가 발생할 가능성이 있는 코드
+except:
+    예외가 발생했을 때 실행할 코드
+else:
+    예외가 발생하지 않았을 때 실행할 코드
+finally:
+    무조건 실행할 코드
+    
+다음은 구문을 모두 사용한 프로그램의 예제코드입니다.
+
+try_except_else_finally.py
+```python
+# try except 구문으로 예외를 처리합니다.
+try:
+    # 숫자로 변환합니다.
+    number_input_a = int(input("정수 입력> "))
+    # 출력합니다.
+    print("원의 반지름:", number_input_a)
+    print("원의 둘레:", 2*3.14*number_input_a)
+    print("원의 넓이:", 3.14*number_input_a*number_input_a)
+except:
+    print("정수를 입력해달라고 했습니다!")
+else:
+    print("예외가 발생하지 않았습니다.")
+finally:
+    print("일단 프로그램이 어떻게든 끝났습니다.")
+```
+
+## try, except, finally 구문의 조합
+
+예외 처리 구문은 다음과 같은 규칙을 지켜야 합니다.
+
+1. try 구문은 단독으로 사용할 수 없으며, 반드시 except 구문 또는 finally 구문과 함께 사용해야 합니다.
+2. else 구문은 반드시 except 구문 뒤에 사용해야 합니다.
+
+이를 조합해 보면 다음과 같습니다.
+
+1. try + except 구문 조합
+2. try + except + else 구문 조합
+3. try + except + finally 구문 조합
+4. try + except + else + finally 구문 조합
+5. try + finally 구문 조합
+
+이 외의 조합은 실행했을 때 구문 오류가 발생합니다. 
+ 
+## finally에 대한 오해
+ 
+일반적으로 finally 키워드를 설명하는 예제로 '파일 처리'를 많이 사용합니다.
+파일을 열고 있으면 해당 파일을 이동하거나 덮어 씌우거나 하는 일이 불가능해집니다. 따라서 프로그램에서 파일을 열었으면open 무조건 닫아야close 합니다. 파일을 제대로 닫았는지는 파일 객체의 clsoed 속성으로 알 수 있습니다.
+
+다음은 파일이 제대로 닫혔는지 확인하는 프로그램의 예시코드입니다.
+
+file_closed01.py
+```python
+# try except 구문을 사용합니다.
+try:
+    # 파일을 엽니다.
+    file = open("info.txt", "w")
+    # 여러가지 처리를 수행합니다.
+    # 파일을 닫습니다.
+    file.close()
+except Exception as e:
+    print(e)
+
+print("# 파일이 제대로 닫혔는지 확인하기")
+print("file.closed:", file.closed)
+```
+
+물론 현재 예제처럼 간단하게 실행되고 끝나는 프로그램이라면 큰 상관은 없습ㄴ디ㅏ. 프로그램이 끝날 때 자신이 열었던 파일을 자동으로 모두 닫습니다. 하지만 이 프로그램이 항상 켜져 있는 프로그램이라면 문제가 생길 수 있습니다. *항상 켜져있는 프로그램을 데몬(daemon) 또는 서비스(service)라고 부릅니다. 예를 들어 컴퓨터의 성능을 감시하는 프로그램, 파일의 변경을 감시하는 프로그램, 사용자에게 웹 페이지를 제공해 주는 웹 서버 등이 모두 데몬이자 서비스입니다.
+
+파일을 닫을 때는 close() 함수를 사용합니다. 그런데 중간 과정에서 예외가 발생해서 try 구문 중간에 튕겨 버리면 파일이 제대로 닫히지 않는 문제가 발생할 수 있습니다.
+
+다음은 파일 처리 중간에 예외를 발생시키는 프로그램의 예제코드입니다.
+file_closed02.py
+```python
+# try except 구문을 사용합니다.
+try:
+    # 파일을 엽니다.
+    file = open("info.txt", "w")
+    # 여러 가지 처리를 수행합니다.
+    예외.발생해라()
+    # 파일을 닫습니다.
+    file.close()
+except Exception as e:
+    print(e)
+
+print("# 파일이 제대로 닫혔는지 확인하기")
+print("file.closed:", file.closed)
+```
+코드를 실행해보면 closed가 False이므로 파일이 닫히지 않았다는 것을 알 수 있습니다. 따라서 반드시 finally 구문을 사용하여 파일을 닫게 해야합니다.
+
+다음은 finally 구문을 사용해서 파일을 닫는 프로그램의 예시코드입니다.
+file_closed03.py
+```python
+# try except 구문을 사용합니다.
+try:
+    # 파일을 엽니다.
+    file = open("info.txt", "w")
+    # 여러 가지 처리를 수행합니다.
+    예외.발생하라()
+except Exception as e:
+    print(e)
+finally:
+    # 파일을 닫습니다.
+    file.close()
+
+print("# 파일이 제대로 닫혔는지 확인하기")
+print("file.closed:", file.closed)
+```
+이는 finally 키워드와 관련된 기본적인 설명이며, 모든 프로그래밍 언어에서 예외 처리를 설명할 때 단골로 나오는 이야기입니다. 그런데 다음과 같이 코드를 사용할 수 있을 까라는 생각을 할 수 도 있습니다.
+
+다음은 try except 구문 끝난 후 파일을 닫는 프로그램의 예제 코드입니다.
+file_closed04.py
+```python
+# try except 구문을 사용합니다.
+try:
+    # 파일을 엽니다.
+    file = open("info.txt", "w")
+    # 여러 가지 처리를 수행합니다.
+    예외.발생하라()
+except Exception as e:
+    print(e)
+
+# 파일을 닫습니다.
+file.close()
+print("# 파일이 제대로 닫혔는지 확인하기")
+print("file.closed:", file.closed)
+```
+그냥 try except 구문이 모두 끝난 후에 파일을 닫으면 아무 문제 없습니다.
+한마디로 파일 처리를 할 때 무조건 finally 키워드를 사용해야 한다는 것은 말도 안되는 이야기입니다. finally 키워드는 어떤 조건에 무조건 사용해야 하는 게 아니라 finally 키워드를 사용하면 코드가 깔끔해질 것 같다고 생각되는 경우에 사용합니다.
+
+## try 구문 내부에서 return 키워드를 사용하는 경우
+
+finally 구문은 반복문 또는 함수 내부에 있을 때 위력을 발휘합니다. 다음은 try 구문 내부에서 return 키워드를 사용하는 프로그램의 예시코드입니다.
+
+try_return01.py
+```python
+# test() 함수를 선언합니다.
+def test():
+    print("test() 함수의 첫 줄입니다.")
+    try:
+        print("try 구문이 실행되었습니다.")
+        return
+        print("try 구문의 return 키워드 뒤입니다.")
+    except:
+        print("except 구문이 실행되었습니다.")
+    else:
+        print("else 구문이 실행되었습니다.")
+    finally:
+        print("finally 구문이 실행되었습니다.")
+    print("test() 함수의 마지막 줄입니다.")
+
+
+# test() 함수를 호출합니다.
+test()
+```
+try 구문 내부에 return 키워드가 있다는 것이 포인트입니다. try 구문 중간에서 탈출해도 finally 구문은 무조건 실행됩니다. 따라서 함수 내부에서 파일 처리 코드를 깔끔하게 만들고 싶을 때 finally 구문을 활용하는 경우가 많습니다. try 구문에서 원할 때 return 키워드로 빠져나가도 파일이 무조건 닫히기 때문입니다.
+
+다음은 finally 키워드를 활용하는 프로그램의 예시코드입니다.
+
+try_return02.py
+```python
+# 함수를 선언합니다.
+def write_text_file(filename, text):
+    # try except 구문을 사용합니다.
+    try:
+        # 파일을 엽니다.
+        file = open(filename, "w")
+        # 여러 가지 처리를 수행합니다.
+        return
+        # 파일에 텍스트를 입력합니다.
+        file.write(text)
+    except Exception as e:
+        print(e)
+    finally:
+        # 파일을 닫습니다.
+        file.close()
+
+
+# 함수를 호출합니다.
+write_text_file("test.txt", "안녕하세요!")
+```
+만약 중간에 return 키워드 등으로 함수를 빠져나갈 때마다 close()를 하도록 코드를 작성했다면 코드가 굉장히 복잡해질 것입니다. 하지만 이렇게 finally 구문에서 close()함수를 호출하도록 코드를 작성하면 코드가 깔끔해집니다.
+
+## 반복문과 함께 사용하는 경우
+
+finally 구문은 무조건 실행됩니다. 따라서 반복문으로 break로 빠져나갈 때도 마찬가지입니다. 
+다음은 반복문과 finally 구문을 함께 사용하는 프로그램의 예시코드입니다.
+
+finally_loop.py
+```python
+print("프로그램이 시작되었습니다.")
+
+while True:
+    try:
+        print("try 구문이 실행되었습니다.")
+        break
+        print("try 구문의 break 키워드 뒤입니다.")
+    except:
+        print("except 구문이 실행되었습니다.")
+    finally:
+        print("finally 구문이 실행되었습니다.")
+    print("while 반복문의 마지막 줄입니다.")
+print("프로그램이 종료되었습니다.")
+```
+코드를 실행하면 break 키워드로 try 구문 전체를 빠져나가도 finally 구문이 실행되는 것을 볼 수 있습니다.
+
+## 예외 고급
+
+현실에서 어떤 사건이 발생하면 "누가, 언제, 어디서"라는 정보가 생깁니다. 프로그래밍 언어도 예외가 발생하면 예외와 관련된 정보가 생깁니다. 그리고 이러한 예외 정보는 예외 객체 exception object에 저장됩니다. 예외 객체는 다음과 같은 형태로 사용합니다.
+
+try:
+    예외가 발생할 가능성이 있는 구문
+except 예외의 종류 as 예외 객체를 활용할 변수 이름:
+    예외가 발생했을 때 실행할 구문
+    
+## 예외 객체
+
+처음 예외 객체를 사용해 보면 '예외의 종류'가 뭔지 몰라 당황하는 경우가 많습니다. 그럴 때는 '모든 예외의 어머니'라고 불리는 Exception을 사용합니다.
+*Exception 은 '클래스'입니다. 
+
+이를 활용해 예외 객체의 자료형과 예외 객체 자체를 출력해 보는 프로그램의 예시코드입니다.
+except01.py
+```python
+# try except 구문으로 예외를 처리합니다.
+try:
+    # 숫자를 반환합니다.
+    number_input_a = int(input("정수 입력> "))
+    # 출력합니다.
+    print("원의 반지름:", number_input_a)
+    print("원의 둘레:", 2*3.14*number_input_a)
+    print("원의 넓이:", 3.14*number_input_a*number_input_a)
+except Exception as exception:
+    # 예외 객체를 출력해봅니다.
+    print("type(exception):", type(exception))
+    print("exception:", exception)
+```
+코드를 실행하고 문자를 입력하여 예외를 강제로 발생시켜 보면 예외객체의 자료형과 내용이 출력되는 것을 알 수 있습니다. 만약 큰 규모의 웹 서비스를 구축한다면 내부에서 다양한 예외가 발생합니다. 예외가 발생할 때 이러한 정보를 메일 등으로 보내도록 해서 수집하면 이후에 프로그램을 개선하는 데 큰 도움이 됩니다.
+
+## 예외 구분하기
+
+예외 객체를 사용하면 except 구문을 if 조건문처럼 사용해서 예외를 구분할 수 있습니다.
+
+## 여러가지 예외가 발생할 수 있는 상황
+
+다음은 여러가지 예외가 발생할 수 있는 예시코드입니다.
+except02.py
+```python
+# try except 구문으로 예외를 처리합니다.
+try:
+    # 숫자를 반환합니다.
+    number_input_a = int(input("정수 입력> "))
+    # 출력합니다.
+    print("원의 반지름:", number_input_a)
+    print("원의 둘레:", 2*3.14*number_input_a)
+    print("원의 넓이:", 3.14*number_input_a*number_input_a)
+except Exception as exception:
+    # 예외 객체를 출력해봅니다.
+    print("type(exception):", type(exception))
+    print("exception:", exception)
+```
+
+## 예외 구분하기
+
+파이썬은 except 구문 뒤에 예외의 종류를 입력해서 예외를 구분할 수 있습니다.
+
+try:
+    예외가 발생할 가능성이 있는 구문
+except 예외의 종류A:
+    예외가 발생했을 때 실행할 구문
+except 예외의 종류B:
+    예외가 발생했을 때 실행할 구문
+except 예외의 종류C:
+    예외가 발생했을 때 실행할 구문
+ 
+다음은 ValueError와 IndexError를 구분하는 프로그램의 예시코드입니다.
+
+except_multi.py
+```python
+# 변수를 선언합니다.
+list_number = [52, 273, 32, 72, 100]
+
+# try excpet 구문으로 예외를 처리합니다.
+try:
+    # 숫자를 입력받습니다.
+    number_input = int(input("정수 입력> "))
+    # 리스트의 요소를 출력합니다.
+    print("{}번 째 요소: {}".format(number_input, list_number[number_input]))
+except ValueError:
+    # ValueError가 발생하는 경우
+    print("정수를 입력해 주세요!")
+except IndexError:
+    # IndexError가 발생하는 경우
+    print("리스트의 인덱스를 벗어났습니다!")
+```
+
+## 예외 구분 구문과 예외 객체
+
+예외를 구분할 때 각각의 except 구문 뒤에 예외 객체를 붙여 활용할 수도 있습니다. 마찬가지로 as 키워드를 사용하면 됩니다. 예외 구문과 예외 객체를 실습하는 프로그램의 예시코드입니다.
+
+except_as.py
+```python
+# 변수를 선언합니다.
+list_number = [52, 273, 32, 72, 100]
+
+# try except 구문으로 예외를 처리합니다.
+try:
+    # 숫자를 입력받습니다.
+    number_input = int(input("정수 입력> "))
+    # 리스트의 요소를 출력합니다.
+    print("{}번 째 요소: {}".format(number_input, list_number[number_input]))
+except ValueError as exception:
+    # ValueError가 발생하는 경우
+    print("정수를 입력해 주세요")
+    print("exception:", exception)
+except IndexError as exception:
+    print("리스트의 범위를 벗어났습니다!")
+    print("exception:", exception)
+```
+
+## 모든 예외 잡기
+
+except 구문으로 예외를 구분하면 if, elif, else 조건문처럼 차례대로 오류를 검출하면서 확인합니다. 만약 예외 조건에 일치하는 것이 없다면 당연히 예외가 발생하며 프로그램이 강제 종료됩니다.
+예를 들어 중간에 예외.발생해주세요() 를 사용하는데 예외라는 이름의 변수가 없으므로 예외가 발생합니다. 이름이 없으므로 NameError가 발생할 텐데, 예외 처리 구분 중에 NameError가 없습니다.
+
+예외 처리를 했지만 예외를 못 잡는 경우의 프로그램의 예시코드입니다.
+except03.py
+```python
+# 변수를 선언합니다.
+list_number = [52, 273, 32, 72, 100]
+
+# try except구문으로 예외를 처리합니다.
+try:
+    # 숫자를 입력받습니다.
+    number_input = int(input("정수 입력>"))
+    # 리스트의 요소를 출력합니다.
+    print("{}번 째 요소: {}".format(number_input, list_number[number_input]))
+    예외.발생해주세요()
+except ValueError as exception:
+    # ValueError가 발생하는 경우
+    print("정수를 입력해 주세요")
+    print("exception:", exception)
+except IndexError as exception:
+    print("리스트의 범위를 벗어났습니다!")
+    print("exception:", exception)
+``` 
+이렇게 되면 예외가 발생해 프로그램이 강제 종료됩니다. 그래서 else 구문처럼 마지막에는 모든 예외의 부모라고 할 수 있는 Exception을 넣어 프로그램이 죽지 않게 하는 것이 좋습니다.
+다음은 모든 예외를 잡는 프로그램의 예시코드입니다.
+
+except_all.py
+```python
+# 변수를 선언합니다.
+list_number = [52, 273, 32, 72, 100]
+
+# try except 구문으로 예외를 처리합니다.
+try:
+    # 숫자를 입력받습니다.
+    number_input = int(input("정수 입력> "))
+    # 리스트의 요소를 출력합니다.
+    print("{}번 째 요소: {}".format(number_input, list_number[number_input]))
+    예외.발생해주세요()
+except ValueError as exception:
+    # ValueError가 발생하는 경우
+    print("정수를 입력해 주세요")
+    print("exception:", exception)
+except IndexError as exception:
+    print("리스트의 범위를 벗어났습니다!")
+    print("exception:", exception)
+except Exception as exception:
+    # 이외의 예외가 발생한 경우
+    print("미리 파악하지 못한 예외가 발생했습니다.")
+    print(type(exception), exception)
+```
+코드를 실행하면 프로그램이 중간에 강제 종료되지 않으며 앞의 결과와 같이 출력합니다. 참고로 너무 치명적인 문제인데도 프로그램이 종료되지 않게 만들면 그건 또 그것대로 문제가 될 수 있으므로 상황을 꼭 확인하는 것이 좋습니다.
+
+지금까지 예외를 처리하는 방법에 대해서 알아보았습니다.예외 처리에서 가장 중요한 것은 '이 코드에서 어떤 예외가 발생할 것인가'를 잘 예측하는 것입니다.
+
+수많은 게임을 만들어 본 개발자들도 게임 내부에서 예외를 제대로 잡지 못해서 'Microsoft Visual C++ Runtime Library - Runtime Error!' 등의 메시지가 뜨면서 프로그램이 강제 종료되는 경우가 허닿바니다. 또한 잘 만들어진 게임 서버도 사람이 몰렸다는 이유만으로 예외가 발생해서 서버가 터져버렸어요라는 공지를 띄우기도합니다. ktx를 예매할 때, 공연 티켓을 예매할 때도 사람들이 너무 몰려 데이터베이스 연결이 많아지면 예외가 발생해서 긴급 유지보수를 진행하는 경우도 있습니다. 너무 많은 상황을 모두 예측할 수는 없지만, 최대한 잡을 수 있는 것들을 예측해 보고 잡을 수 있도록 노력하는 것이 개발자의 자세라고 할 수 있습니다.
+
+## raise 구문
+
+프로그램이 강제 종료되는 것을 막기 위해 예외는 꼭 처리해야 합니다. 하지만 프로그램을 개발하는 동안에는 '아직 구현되지 않은 부분이니까 확실하게 문제가 생기게 만들자' 또는 '이 부분을 그냥 넘어가면 나중에 큰 문제가 발생하니까 여기에서 강제 종료시키자'라는 경우도 있습니다.
+
+이전에 pass 키워드를 배우면서 다음과 같은 예가 있었습니다.
+
+```python
+# 입력을 받습니다.
+number = input("정수 입력> ")
+number = int(number)
+# 조건문 사용
+if number > 0:
+    # 양수일 때: 아직 미구현 상태입니다.
+    raise NotImplementedError
+else: 
+    # 음수일 때: 아직 미구현 상태입니다.
+    raise NotImplementedError
+```
+아직 구현되지 않은 부분이므로 일부러 예외를 발생시켜 프로그램을 죽게 만들어 잊어버리지 않도록하는 것입니다. 이때 사용한 raise 키워드가 바로 예외를 강제로 밠애시키는 기능을 합니다.
+
+raise 예외 객체
+
+사용방법은 간단합니다. raise 뒤에 예외 이름을 입력해 주면 됩니다.
+이때 출력되는 메시지를 원하는 형태로 만들고 싶다면 예외 클래스를 만들어야 합니다. 일반적으로 많이 사용되는 내용은 아닙니다.
